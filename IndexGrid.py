@@ -1,4 +1,5 @@
 from nexcom import nexcom, nexcom_min_1
+from itertools import product,accumulate
 
 class IndexGrid()
     __init__(dimension, exactness, index_per_level):
@@ -30,7 +31,7 @@ class IndexGrid()
     def index_per_level(self, ipl)
         self.index_per_level = ipl
 
-    def grid_levels():
+    def grid_levels(self):
         """
         Computes grid levels
 
@@ -44,3 +45,29 @@ class IndexGrid()
         for i in range(self.dimension,self.dimension+self.exactness+1):
             grid_levels.extend(nexcom_min_1(i,n))
         return grid_levels
+
+    def Smolyak_indices(self):
+        """
+        Creates Smolyak indices
+
+        Returns
+        -------
+        Smolyak_indices : list of truples
+            Smolyak indices where each number is associated with a term
+            of the surrogate function and an extrema of the surrogate
+            function
+        """
+        grid_level = grid_levels()
+        Smolyak_indices = []
+        combin_list = grid_level
+        cummul_index_per_level = [0]
+        cummul_index_per_level.extend([x := x + i for i in a])
+        for i in range(0,len(grid_level)):
+            for j in range(0,n):
+                num_in_lev = self.index_per_level[grid_level[i][j]-1]
+                num_bef_lev = cummul_index_per_level[grid_level[i][j]-1]
+                combin_list = list(range(num_before_lev, num_in_lev+num_before_lev))
+            combin_all = list(product(*combin_list[i]))
+            Smolyak_indices += combin_all
+        return Smolyak_indices
+
