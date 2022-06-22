@@ -1,3 +1,5 @@
+from nexcom import nexcom, nexcom_min_1
+
 class IndexGrid()
     __init__(dimension, exactness, index_per_level):
         self.dimension = dimension
@@ -27,3 +29,18 @@ class IndexGrid()
     @index_per_level.setter
     def index_per_level(self, ipl)
         self.index_per_level = ipl
+
+    def grid_levels():
+        """
+        Computes grid levels
+
+        Returns
+        -------
+        grid_levels : list
+            n-dimensional vector of valid combinations of grid levels
+        """
+        max_level = 1 + self.exactness
+        grid_levels = []
+        for i in range(self.dimension,self.dimension+self.exactness+1):
+            grid_levels.extend(nexcom_min_1(i,n))
+        return grid_levels
